@@ -40,7 +40,6 @@ Reimport the Northwind database into PostgreSQL using pgAdmin. This is the same 
 SELECT customer_id, contact_name, city
 FROM customers
 WHERE city = ('London')
-ORDER BY customer_id
 ```
 
 * [x] ***find all customers with postal code 1010. Returns 3 customers***
@@ -54,7 +53,6 @@ ORDER BY customer_id
 SELECT customer_id, contact_name, city, postal_code
 FROM customers
 WHERE postal_code = ('1010')
-ORDER BY customer_id
 ```
 
 * [x] ***find the phone number for the supplier with the id 11. Should be (010) 9984510***
@@ -68,7 +66,6 @@ ORDER BY customer_id
 SELECT supplier_id, company_name, phone
 FROM suppliers
 WHERE phone = ('(010) 9984510')
-ORDER BY supplier_id
 ```
 
 * [x] ***list orders descending by the order date. The order with date 1998-05-06 should be at the top***
@@ -155,6 +152,10 @@ WHERE customer_id = 'SHIRE'
   </details>
 
 ```SQL
+SELECT c.company_name, COUNT(c.company_name)
+FROM customers c JOIN orders o
+on c.customer_id = o.customer_id
+GROUP BY c.company_name
 
 ```
 
@@ -166,7 +167,11 @@ WHERE customer_id = 'SHIRE'
   </details>
 
 ```SQL
-
+SELECT c.contact_name, COUNT(c.contact_name)
+FROM customers c JOIN orders o
+on c.customer_id = o.customer_id
+GROUP BY c.contact_name
+ORDER BY count(c.contact_name) DESC
 ```
 
 * [ ] ***list orders grouped by customer's city showing the number of orders per city. Returns 69 Records with _Aachen_ showing 6 orders and _Albuquerque_ showing 18 orders***
@@ -177,7 +182,10 @@ WHERE customer_id = 'SHIRE'
   </details>
 
 ```SQL
-
+SELECT c.city, COUNT(c.city)
+FROM customers c JOIN orders o
+on c.customer_id = o.customer_id
+GROUP BY c.city
 ```
 
 ## Data Normalization
